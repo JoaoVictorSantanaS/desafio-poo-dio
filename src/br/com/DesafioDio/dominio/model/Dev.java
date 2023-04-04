@@ -1,4 +1,4 @@
-package br.com.dio.desafio.dominio;
+package br.com.DesafioDio.dominio.model;
 
 import java.util.*;
 
@@ -21,6 +21,27 @@ public class Dev {
             System.err.println("Você não está matriculado em nenhum conteúdo!");
         }
     }
+    public void progredirTodos() {
+        int countCursosFeitos = 0;
+        Optional<Conteudo> conteudo;
+
+        while(true){
+            conteudo = this.conteudosInscritos.stream().findFirst();
+            if(conteudo.isPresent()) {
+                this.conteudosConcluidos.add(conteudo.get());
+                this.conteudosInscritos.remove(conteudo.get());
+                countCursosFeitos++;
+            } else {
+                if(countCursosFeitos == 0){
+                    System.err.println("Você não está matriculado em nenhum conteúdo!");
+                }
+
+                break;
+            }
+
+        }
+
+    }
 
     public double calcularTotalXp() {
         Iterator<Conteudo> iterator = this.conteudosConcluidos.iterator();
@@ -38,6 +59,15 @@ public class Dev {
     }
 
 
+    public void imprimirConteudosInscritos(){
+        System.out.println("Conteúdos Inscritos " + this.getNome()+": " + this.getConteudosInscritos());
+    }
+    public void imprimirConteudosConcluidos(){
+        System.out.println("Conteúdos Concluídos " + this.getNome()+": " + this.getConteudosConcluidos());
+    }
+    public void imprimirXp(){
+        System.out.println("XP:" + this.calcularTotalXp());
+    }
     public String getNome() {
         return nome;
     }
